@@ -19,7 +19,7 @@ b = 1'b0;
 #20
 a = 1'b0;
 b = 1'b0;
-#25 $finish
+#25 $finish;
 end
 
 initial $monitor($time, "Sum = %b, Carry = %b%s", s, cout, overflow ? " OVERFLOW" : "");
