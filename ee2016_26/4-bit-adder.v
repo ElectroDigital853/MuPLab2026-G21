@@ -1,0 +1,1 @@
+module fourbitadd(s3, s2, s1, s0, cout, a, b, cin)
