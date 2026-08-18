@@ -119,7 +119,7 @@ CBI PORTC, 1
 ZERO_CHECK:
 CPI R19, 0
 BRNE ON_ZERO
-CBI PORTC, 2
+CBI PORTC, 0 ; Bug fixed.. Present this in tomorrow lab! Previously this number was 2..
 RJMP BEGINNING
 
 ON_FOUR:
