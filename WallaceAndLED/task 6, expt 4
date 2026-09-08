@@ -1,5 +1,5 @@
-module lcd_product(in_Clk, sw, lcd_rs, lcd_e, data);
-    input in_Clk;
+module lcd_product(in_clk, sw, lcd_rs, lcd_e, data);
+    input in_clk;
     input [7:0] sw;
     output reg [7:0] data;
     output reg lcd_rs;
@@ -37,9 +37,9 @@ module lcd_product(in_Clk, sw, lcd_rs, lcd_e, data);
     wire [7:0]  tens_ascii = {4'h3, bcd[7:4]};  // '0'-'9'
     wire [7:0]  unit_ascii = {4'h3, bcd[3:0]};  // '0'-'9'
 
-    wire out_Clk;
-    clk_divider c0 (in_Clk, out_Clk); // reused from Task 4
-    assign lcd_e = out_Clk;
+    wire out_clk;
+    clk_divider c0 (in_clk, out_clk); // reused from Task 4
+    assign lcd_e = out_clk;
 
     reg [31:0] count = 0;
 
