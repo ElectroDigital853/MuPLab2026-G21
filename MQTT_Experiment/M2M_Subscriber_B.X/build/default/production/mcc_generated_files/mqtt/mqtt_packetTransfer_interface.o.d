@@ -1,0 +1,24 @@
+build/default/production/mcc_generated_files/mqtt/mqtt_packetTransfer_interface.o.d \
+ build/default/production/mcc_generated_files/mqtt/mqtt_packetTransfer_interface.o: \
+ mcc_generated_files/mqtt/mqtt_packetTransfer_interface.c \
+ c:\program\ files\microchip\xc8\v2.36\avr\lib\gcc\avr\5.4.0\include\stdint.h \
+ c:\program\ files\microchip\xc8\v2.36\avr\avr\include\stdint.h \
+ c:\program\ files\microchip\xc8\v2.36\avr\avr\include\bits\alltypes.h \
+ c:\program\ files\microchip\xc8\v2.36\avr\avr\include\bits\stdint.h \
+ c:\program\ files\microchip\xc8\v2.36\avr\avr\include\string.h \
+ c:\program\ files\microchip\xc8\v2.36\avr\avr\include\features.h \
+ mcc_generated_files/mqtt/mqtt_packetTransfer_interface.h
+
+c:\program\ files\microchip\xc8\v2.36\avr\lib\gcc\avr\5.4.0\include\stdint.h:
+
+c:\program\ files\microchip\xc8\v2.36\avr\avr\include\stdint.h:
+
+c:\program\ files\microchip\xc8\v2.36\avr\avr\include\bits\alltypes.h:
+
+c:\program\ files\microchip\xc8\v2.36\avr\avr\include\bits\stdint.h:
+
+c:\program\ files\microchip\xc8\v2.36\avr\avr\include\string.h:
+
+c:\program\ files\microchip\xc8\v2.36\avr\avr\include\features.h:
+
+mcc_generated_files/mqtt/mqtt_packetTransfer_interface.h:
