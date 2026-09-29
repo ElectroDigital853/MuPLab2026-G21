@@ -1,0 +1,152 @@
+Header:
+-----------------------------------------------------
+#ifndef NAND_PERCEPTRON_H
+#define NAND_PERCEPTRON_H
+
+void nand_perceptron(
+    int sw_a, 
+    int sw_b, 
+    int *led_out, 
+    int *led_w1_neg, 
+    int *led_w2_neg, 
+    int *led_bias_neg,
+    float *out_w1,
+    float *out_w2,
+    float *out_bias
+);
+
+#endif
+
+---------------------------------------------------
+Top level design file:
+----------------------------------------------------
+
+#include "nand_perceptron.h"
+
+void nand_perceptron(
+    int sw_a, 
+    int sw_b, 
+    int *led_out, 
+    int *led_w1_neg, 
+    int *led_w2_neg, 
+    int *led_bias_neg,
+    float *out_w1,
+    float *out_w2,
+    float *out_bias
+) {
+    // HLS Directives for FPGA I/O ports
+    #pragma HLS INTERFACE ap_none port=sw_a
+    #pragma HLS INTERFACE ap_none port=sw_b
+    #pragma HLS INTERFACE ap_none port=led_out
+    #pragma HLS INTERFACE ap_none port=led_w1_neg
+    #pragma HLS INTERFACE ap_none port=led_w2_neg
+    #pragma HLS INTERFACE ap_none port=led_bias_neg
+    #pragma HLS INTERFACE ap_none port=out_w1
+    #pragma HLS INTERFACE ap_none port=out_w2
+    #pragma HLS INTERFACE ap_none port=out_bias
+    #pragma HLS INTERFACE ap_ctrl_none port=return
+
+    // 1. Training Dataset: NAND Gate Truth Table
+    float inputs[4][2] = {
+        {0.0f, 0.0f},
+        {0.0f, 1.0f},
+        {1.0f, 0.0f},
+        {1.0f, 1.0f}
+    };
+    int targets[4] = {1, 1, 1, 0}; // NAND target outputs
+
+    // 2. Training Parameters
+    float w1 = 0.1f;    // Arbitrary initial weights
+    float w2 = 0.1f;
+    float bias = 0.1f;
+    float eta = 0.1f;   // Learning rate
+    int epochs = 20;    // Number of training iterations
+
+    // 3. Perceptron Training Loop
+    TRAIN_EPOCHS: for (int e = 0; e < epochs; e++) {
+        TRAIN_SAMPLES: for (int i = 0; i < 4; i++) {
+            float z = (w1 * inputs[i][0]) + (w2 * inputs[i][1]) + bias;
+            int y_pred = (z >= 0.0f) ? 1 : 0;
+            int error = targets[i] - y_pred;
+
+            // Weight and bias update equations
+            w1 += eta * (float)error * inputs[i][0];
+            w2 += eta * (float)error * inputs[i][1];
+            bias += eta * (float)error;
+        }
+    }
+
+    // 4. Output calculated parameters
+    *out_w1 = w1;
+    *out_w2 = w2;
+    *out_bias = bias;
+
+    // 5. FPGA Switch Logic Verification for current sliding switch inputs
+    float current_z = (w1 * (float)sw_a) + (w2 * (float)sw_b) + bias;
+    *led_out = (current_z >= 0.0f) ? 1 : 0;
+
+    // 6. LED Indicators for negative weight/bias values
+    *led_w1_neg   = (w1 < 0.0f) ? 1 : 0;
+    *led_w2_neg   = (w2 < 0.0f) ? 1 : 0;
+    *led_bias_neg = (bias < 0.0f) ? 1 : 0;
+}
+
+-------------------------------------------
+Testbench:
+-------------------------------------------
+#include <iostream>
+#include <iomanip>
+#include "nand_perceptron.h"
+
+int main() {
+    int sw_a, sw_b;
+    int led_out, led_w1_neg, led_w2_neg, led_bias_neg;
+    float final_w1, final_w2, final_bias;
+
+    std::cout << "==================================================" << std::endl;
+    std::cout << "     TASK 2: NAND PERCEPTRON TRAINING SIMULATION  " << std::endl;
+    std::cout << "==================================================" << std::endl;
+
+    // Run the design function once to execute training
+    nand_perceptron(0, 0, &led_out, &led_w1_neg, &led_w2_neg, &led_bias_neg, &final_w1, &final_w2, &final_bias);
+
+    // Print calculated weights and bias
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << "\nCalculated Parameters after 20 Epochs:" << std::endl;
+    std::cout << "  Weight 1 (w1) : " << final_w1 << " (LED Neg Flag: " << led_w1_neg << ")" << std::endl;
+    std::cout << "  Weight 2 (w2) : " << final_w2 << " (LED Neg Flag: " << led_w2_neg << ")" << std::endl;
+    std::cout << "  Bias          : " << final_bias << " (LED Neg Flag: " << led_bias_neg << ")" << std::endl;
+
+    std::cout << "\n--------------------------------------------------" << std::endl;
+    std::cout << " Verification of Learned NAND Gate Logic:" << std::endl;
+    std::cout << " Input A | Input B | Expected | NAND Output | Status" << std::endl;
+    std::cout << "--------------------------------------------------" << std::endl;
+
+    int test_inputs[4][2] = {{0,0}, {0,1}, {1,0}, {1,1}};
+    int expected_nand[4]  = {1, 1, 1, 0};
+    bool all_passed = true;
+
+    for (int i = 0; i < 4; i++) {
+        sw_a = test_inputs[i][0];
+        sw_b = test_inputs[i][1];
+
+        // Evaluate trained perceptron for each input pair
+        nand_perceptron(sw_a, sw_b, &led_out, &led_w1_neg, &led_w2_neg, &led_bias_neg, &final_w1, &final_w2, &final_bias);
+
+        bool pass = (led_out == expected_nand[i]);
+        if (!pass) all_passed = false;
+
+        std::cout << "    " << sw_a << "    |    " << sw_b << "    |    " 
+                  << expected_nand[i] << "     |      " << led_out << "      | " 
+                  << (pass ? "PASS" : "FAIL") << std::endl;
+    }
+
+    std::cout << "--------------------------------------------------" << std::endl;
+    if (all_passed) {
+        std::cout << "RESULT: NAND Gate Perceptron Training PASSED!\n" << std::endl;
+        return 0;
+    } else {
+        std::cout << "RESULT: Training FAILED!\n" << std::endl;
+        return 1;
+    }
+}
