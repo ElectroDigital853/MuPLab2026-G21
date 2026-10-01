@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "nand_perceptron.h"
+
+// Train one NAND perceptron from the given (random) start.
+// Returns epochs used, or -1 if it didn't converge.
+static int train_neuron(data_t &wa, data_t &wb, data_t &bias, int max_epochs) {
+    const int X1[4] = {0, 0, 1, 1};
+    const int X2[4] = {0, 1, 0, 1};
+    const int T [4] = {1, 1, 1, 0};
+
+    for (int e = 0; e < max_epochs; e++) {
+        int wrong = 0;
+        for (int i = 0; i < 4; i++) {
+            int y   = predict_nand(wa, wb, bias, X1[i], X2[i]);
+            int err = T[i] - y;
+            if (err) {
+                wrong++;
+                data_t delta = ETA * err;
+                if (X1[i]) wa += delta;
+                if (X2[i]) wb += delta;
+                bias += delta;
+            }
+        }
+        if (wrong == 0) return e;      // converged
+    }
+    return -1;
+}
+
+static data_t rand_init() {            // random multiple of 0.1 in [-1, 1]
+    return ETA * (rand() % 21 - 10);
+}
+
+// one neuron = one NAND perceptron: inputs p, q (0/1)
+static int neuron(data_t wa, data_t wb, data_t bias, int p, int q) {
+    return predict_nand(wa, wb, bias, p, q);
+}
+
+// Figure 2 network. w[0..7] = w1..w8, b[0..3] = b1..b4
+static int xor_net(const data_t w[8], const data_t b[4], int x1, int x2) {
+    int A = neuron(w[1], w[2], b[0], x1, x2);   // w2, w3, b1
+    int B = neuron(w[0], w[5], b[1], x1, A);    // w1, w6, b2
+    int C = neuron(w[3], w[4], b[2], x2, A);    // w4, w5, b3
+    int D = neuron(w[6], w[7], b[3], B,  C);    // w7, w8, b4
+    return D;
+}
+
+int main() {
+    srand(2026);
+    data_t w[8], b[4];
+    const int MAX_EP = 200;
+
+    // neuron index -> which weights/bias it owns
+    const int WA[4] = {1, 0, 3, 6};   // first weight index  (w2, w1, w4, w7)
+    const int WB[4] = {2, 5, 4, 7};   // second weight index (w3, w6, w5, w8)
+    const char *name[4] = {"A", "B", "C", "D"};
+
+    printf("=== Training 4 NAND neurons from random starts (eta = 0.1) ===\n");
+    for (int n = 0; n < 4; n++) {
+        w[WA[n]] = rand_init();
+        w[WB[n]] = rand_init();
+        b[n]     = rand_init();
+        printf("neuron %s init : w%d=%5.2f w%d=%5.2f b%d=%5.2f\n", name[n],
+               WA[n] + 1, w[WA[n]].to_double(), WB[n] + 1, w[WB[n]].to_double(),
+               n + 1, b[n].to_double());
+
+        int ep = train_neuron(w[WA[n]], w[WB[n]], b[n], MAX_EP);
+        if (ep < 0) printf("  -> did NOT converge\n");
+        else        printf("  -> converged after %d epochs\n", ep);
+    }
+
+    printf("\n=== Final weights and biases ===\n");
+    for (int i = 0; i < 8; i++) printf("w%d = %6.2f\n", i + 1, w[i].to_double());
+    for (int i = 0; i < 4; i++) printf("b%d = %6.2f\n", i + 1, b[i].to_double());
+
+    printf("\n=== Verification: XOR ===\n");
+    int expected[4] = {0, 1, 1, 0};
+    int errors = 0;
+    printf(" x1 x2 | XOR | net | result\n");
+    for (int i = 0; i < 4; i++) {
+        int x1 = i >> 1, x2 = i & 1;
+        int y  = xor_net(w, b, x1, x2);
+        bool ok = (y == expected[i]);
+        if (!ok) errors++;
+        printf("  %d  %d |  %d  |  %d  | %s\n", x1, x2, expected[i], y, ok ? "PASS" : "FAIL");
+    }
+
+    printf("\n%s\n", errors == 0 ? "VERIFICATION PASSED" : "VERIFICATION FAILED");
+    return errors;
+}
