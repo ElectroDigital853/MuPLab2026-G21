@@ -1,274 +1,111 @@
 Header:
 -----------------------------------------------------#ifndef PERCEPTRON_NAND_H
-#define PERCEPTRON_NAND_H
+#ifndef NAND_H
+#define NAND_H
 
 #include <ap_int.h>
-#include <ap_fixed.h>
 
-// ---------------------------------------------------------------------------
-// Number format
-// ap_fixed<20,4>: 4 integer bits (incl. sign) -> range [-8, 8)
-//                16 fractional bits          -> resolution ~1.5e-5
-// AP_RND rounds constants like 0.1 to the nearest step, AP_SAT clips instead
-// of wrapping around if a value ever goes out of range.
-// ---------------------------------------------------------------------------
-typedef ap_fixed<20, 4, AP_RND, AP_SAT> data_t;
+#define EPOCHS 20
+#define ETA    0.1f
 
-#define N_INPUTS   2
-#define N_SAMPLES  4      // 4 rows of the 2-input NAND truth table
-#define N_EPOCHS   20     // as suggested in the hint
-
-// Learning rate (eta)
-const data_t ETA = 0.1;
-
-// Arbitrary initial weights and bias (change these and re-run to experiment)
-const data_t W1_INIT   =  0.5;
-const data_t W2_INIT   = -0.3;
-const data_t BIAS_INIT = -0.2;
-
-// ---------------------------------------------------------------------------
-// Board I/O mapping (16 switches in, 16 LEDs out)
-//
-//   sw[0]      : input a        (to test the trained NAND)
-//   sw[1]      : input b
-//   sw[15:14]  : display select  00 -> w1, 01 -> w2, 10 -> bias, 11 -> epochs
-//
-//   leds[7:0]  : |selected value| x 10, in binary (0.3 -> 00000011)
-//                (for select = 11: epoch at which training converged)
-//   leds[8]    : 1 if the selected value is negative
-//   leds[9]    : 1 if w1   is negative
-//   leds[10]   : 1 if w2   is negative
-//   leds[11]   : 1 if bias is negative
-//   leds[13:12]: unused (0)
-//   leds[14]   : 1 if training converged within N_EPOCHS
-//   leds[15]   : perceptron output y = NAND(a, b)
-// ---------------------------------------------------------------------------
-#define SEL_W1     0
-#define SEL_W2     1
-#define SEL_BIAS   2
-#define SEL_EPOCH  3
-
-#define LED_NEG_SEL   8
-#define LED_NEG_W1    9
-#define LED_NEG_W2    10
-#define LED_NEG_BIAS  11
-#define LED_DONE      14
-#define LED_Y         15
-
-// Trains the perceptron on the NAND truth table.
-// conv_epoch = first epoch with zero errors (0 if it never converged).
-// verbose = true prints the per-epoch trace during C simulation only.
-void train_nand(data_t &w1, data_t &w2, data_t &bias,
-                ap_uint<5> &conv_epoch, bool verbose);
-
-// Top-level function (this is what gets synthesised to RTL)
-void perceptron_nand(ap_uint<16> sw, ap_uint<16> &leds);
+void train(float &w1, float &w2, float &bias);
+void nand_perceptron(ap_uint<1> a, ap_uint<1> b, ap_uint<16> &leds);
 
 #endif
-
 ---------------------------------------------------
 Top level design file:
 ----------------------------------------------------
 
-#include "perceptron_nand.h"
-#ifndef __SYNTHESIS__
-#include <cstdio>
-#endif
+#include "nand.h"
 
-// Step activation from Figure 1: c = 1 if z >= 0, else 0
-static ap_uint<1> step(data_t z)
+// Step function: output 1 if z >= 0, else 0
+int step(float z)
 {
-    return (z >= 0) ? 1 : 0;
+    if (z >= 0) return 1;
+    else        return 0;
 }
 
-// |v| * 10, rounded to nearest integer, for display on 8 LEDs
-static ap_uint<8> to_tenths(data_t v)
+// Train the perceptron on the NAND truth table
+void train(float &w1, float &w2, float &bias)
 {
-    data_t mag = (v < 0) ? (data_t)(-v) : v;
-    ap_ufixed<16, 8> scaled = mag * 10;
-    scaled += ap_ufixed<16, 8>(0.5);
-    return scaled.to_uint();
-}
+    int x1[4] = {0, 0, 1, 1};
+    int x2[4] = {0, 1, 0, 1};
+    int t[4]  = {1, 1, 1, 0};     // NAND outputs
 
-void train_nand(data_t &w1, data_t &w2, data_t &bias,
-                ap_uint<5> &conv_epoch, bool verbose)
-{
-    // NAND training data
-    const ap_uint<1> X1[N_SAMPLES] = {0, 0, 1, 1};
-    const ap_uint<1> X2[N_SAMPLES] = {0, 1, 0, 1};
-    const ap_uint<1> T [N_SAMPLES] = {1, 1, 1, 0};
+    // arbitrary starting values
+    w1   =  0.3;
+    w2   = -0.3;
+    bias =  0.2;
 
-    w1   = W1_INIT;
-    w2   = W2_INIT;
-    bias = BIAS_INIT;
-    conv_epoch = 0;
+    for (int e = 0; e < EPOCHS; e++) {
+        for (int i = 0; i < 4; i++) {
+            int y   = step(w1 * x1[i] + w2 * x2[i] + bias);
+            int err = t[i] - y;
 
-EPOCH_LOOP:
-    for (int e = 0; e < N_EPOCHS; e++) {
-        ap_uint<3> errors = 0;
-
-    SAMPLE_LOOP:
-        for (int i = 0; i < N_SAMPLES; i++) {
-            // forward pass
-            data_t     z = w1 * X1[i] + w2 * X2[i] + bias;
-            ap_uint<1> y = step(z);
-
-            // perceptron learning rule: w <- w + eta * (t - y) * x
-            ap_int<2> err   = (ap_int<2>)T[i] - (ap_int<2>)y;   // -1, 0 or +1
-            data_t    delta = ETA * err;
-
-            w1   += delta * X1[i];
-            w2   += delta * X2[i];
-            bias += delta;
-
-            if (err != 0) errors++;
+            w1   = w1   + ETA * err * x1[i];
+            w2   = w2   + ETA * err * x2[i];
+            bias = bias + ETA * err;
         }
-
-#ifndef __SYNTHESIS__
-        if (verbose)
-            printf("Epoch %2d | errors = %d | w1 = %7.3f  w2 = %7.3f  bias = %7.3f\n",
-                   e + 1, (int)errors, w1.to_double(), w2.to_double(), bias.to_double());
-#endif
-
-        // remember the first epoch that had no mistakes
-        if (errors == 0 && conv_epoch == 0)
-            conv_epoch = e + 1;
     }
 }
 
-void perceptron_nand(ap_uint<16> sw, ap_uint<16> &leds)
+// Turns a value into "tenths" for the LEDs, e.g. -0.3 -> 3
+ap_uint<4> tenths(float v)
 {
-#pragma HLS INTERFACE mode=ap_ctrl_hs port=return
-#pragma HLS INTERFACE mode=ap_none    port=sw
-#pragma HLS INTERFACE mode=ap_vld     port=leds
+    if (v < 0) v = -v;
+    return (int)(v * 10 + 0.5f);
+}
 
-    // 1. Train on the FPGA
-    data_t     w1, w2, bias;
-    ap_uint<5> conv_epoch;
-    train_nand(w1, w2, bias, conv_epoch, false);
+// Top function (this goes on the FPGA)
+void nand_perceptron(ap_uint<1> a, ap_uint<1> b, ap_uint<16> &leds)
+{
+    float w1, w2, bias;
+    train(w1, w2, bias);
 
-    // 2. Read the switches
-    ap_uint<1> a   = sw[0];
-    ap_uint<1> b   = sw[1];
-    ap_uint<2> sel = sw.range(15, 14);
-
-    // 3. Run the trained perceptron on (a, b)
-    ap_uint<1> y = step(w1 * a + w2 * b + bias);
-
-    // 4. Pick what to show on the magnitude LEDs
-    data_t     shown;
-    ap_uint<8> mag;
-    ap_uint<1> neg;
-    if (sel == SEL_EPOCH) {
-        mag = conv_epoch;
-        neg = 0;
-    } else {
-        shown = (sel == SEL_W1) ? w1 : (sel == SEL_W2) ? w2 : bias;
-        mag   = to_tenths(shown);
-        neg   = (shown < 0) ? 1 : 0;
-    }
-
-    // 5. Pack everything onto the LEDs
     ap_uint<16> out = 0;
-    out.range(7, 0)     = mag;
-    out[LED_NEG_SEL]    = neg;
-    out[LED_NEG_W1]     = (w1   < 0) ? 1 : 0;
-    out[LED_NEG_W2]     = (w2   < 0) ? 1 : 0;
-    out[LED_NEG_BIAS]   = (bias < 0) ? 1 : 0;
-    out[LED_DONE]       = (conv_epoch != 0) ? 1 : 0;
-    out[LED_Y]          = y;
+    out.range(3, 0)   = tenths(w1);     // LED 0-3  : |w1|   x 10
+    out.range(7, 4)   = tenths(w2);     // LED 4-7  : |w2|   x 10
+    out.range(11, 8)  = tenths(bias);   // LED 8-11 : |bias| x 10
+    out[12] = (w1   < 0);               // LED 12   : w1 negative
+    out[13] = (w2   < 0);               // LED 13   : w2 negative
+    out[14] = (bias < 0);               // LED 14   : bias negative
+    out[15] = step(w1 * a + w2 * b + bias);   // LED 15 : NAND(a, b)
 
     leds = out;
 }
+
 -------------------------------------------
 Testbench:
 -------------------------------------------
-#include <cstdio>
-#include "perceptron_nand.h"
-
-// Turns the LED pattern back into a signed value, i.e. what you'd read off the board
-static double decode(ap_uint<16> leds)
-{
-    double v = (int)leds.range(7, 0) / 10.0;
-    return leds[LED_NEG_SEL] ? -v : v;
-}
-
-static ap_uint<16> make_sw(int a, int b, int sel)
-{
-    ap_uint<16> sw = 0;
-    sw[0] = a;
-    sw[1] = b;
-    sw.range(15, 14) = sel;
-    return sw;
-}
+#include <stdio.h>
+#include "nand.h"
 
 int main()
 {
-    int fails = 0;
+    float w1, w2, bias;
+    train(w1, w2, bias);
 
-    printf("=====================================================\n");
-    printf(" Perceptron training for 2-input NAND   (eta = %.1f)\n", ETA.to_double());
-    printf(" Initial: w1 = %.3f  w2 = %.3f  bias = %.3f\n",
-           W1_INIT.to_double(), W2_INIT.to_double(), BIAS_INIT.to_double());
-    printf("=====================================================\n");
+    printf("Final weights: w1 = %.2f, w2 = %.2f\n", w1, w2);
+    printf("Final bias   : b  = %.2f\n\n", bias);
 
-    // ---- 1. training trace + final parameters --------------------------------
-    data_t     w1, w2, bias;
-    ap_uint<5> conv_epoch;
-    train_nand(w1, w2, bias, conv_epoch, true);
+    int errors = 0;
+    printf(" a  b | expected | output\n");
 
-    printf("-----------------------------------------------------\n");
-    printf(" Final weights : w1 = %.3f   w2 = %.3f\n", w1.to_double(), w2.to_double());
-    printf(" Final bias    : b  = %.3f\n", bias.to_double());
-    if (conv_epoch != 0)
-        printf(" Converged at epoch %d\n", (int)conv_epoch);
-    else {
-        printf(" Did NOT converge in %d epochs\n", N_EPOCHS);
-        fails++;
-    }
-
-    // ---- 2. verify the synthesised top function on all NAND inputs -----------
-    printf("-----------------------------------------------------\n");
-    printf(" Verification (through top function perceptron_nand)\n");
-    printf("  a  b | expected | got | result\n");
     for (int a = 0; a <= 1; a++) {
         for (int b = 0; b <= 1; b++) {
             ap_uint<16> leds;
-            perceptron_nand(make_sw(a, b, SEL_W1), leds);
+            nand_perceptron(a, b, leds);
+
             int expected = !(a && b);
-            int got      = leds[LED_Y];
-            int ok       = (expected == got);
-            if (!ok) fails++;
-            printf("  %d  %d |    %d     |  %d  | %s\n", a, b, expected, got, ok ? "PASS" : "FAIL");
+            int output   = leds[15];
+            if (output != expected) errors++;
+
+            printf(" %d  %d |    %d     |   %d\n", a, b, expected, output);
         }
     }
 
-    // ---- 3. what the LEDs will show for each display-select setting ---------
-    printf("-----------------------------------------------------\n");
-    printf(" LED output (sw[15:14] = display select)\n");
-    const char *names[4] = {"w1", "w2", "bias", "epoch"};
-    for (int sel = 0; sel < 4; sel++) {
-        ap_uint<16> leds;
-        perceptron_nand(make_sw(0, 0, sel), leds);
-        printf("  sel=%d (%-5s) leds = %s  -> ", sel, names[sel],
-               leds.to_string(2, false).c_str());
-        if (sel == SEL_EPOCH)
-            printf("%d\n", (int)leds.range(7, 0));
-        else
-            printf("%+.1f\n", decode(leds));
-    }
+    if (errors == 0) printf("\nNAND verified: PASS\n");
+    else             printf("\nNAND verified: FAIL\n");
 
-    ap_uint<16> leds;
-    perceptron_nand(make_sw(0, 0, SEL_W1), leds);
-    printf("  sign LEDs: w1 %s, w2 %s, bias %s\n",
-           leds[LED_NEG_W1]   ? "NEG" : "pos",
-           leds[LED_NEG_W2]   ? "NEG" : "pos",
-           leds[LED_NEG_BIAS] ? "NEG" : "pos");
-
-    printf("=====================================================\n");
-    if (fails == 0) printf(" ALL TESTS PASSED\n");
-    else            printf(" %d TEST(S) FAILED\n", fails);
-    printf("=====================================================\n");
-
-    return fails;   // Vitis treats non-zero as a failed C simulation
+    return errors;
 }
