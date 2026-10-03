@@ -1,0 +1,17 @@
+#include "or.h"
+
+void orr (ap_uint<1> a, ap_uint<1> b, ap_uint<1> &c) {
+    //
+    #pragma HLS INTERFACE ap_ctrl_none port = return
+    #pragma HLS INTERFACE ap_none port = a
+    #pragma HLS INTERFACE ap_none port = b
+    #pragma HLS INTERFACE ap_none port = c
+
+    const data_t w1 = 1.0f;
+    const data_t w2 = 1.0f;
+    const data_t bias = -0.5f;
+    
+    data_t z = w1*a + w2*b + bias;
+    c = z >= 0 ? 1 : 0;
+    
+}
