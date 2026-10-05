@@ -1,0 +1,157 @@
+<ENTRY>
+{
+ "thisFile": "C:/Users\\ielab1\\mnvskn\\ORR\\ORR\\ORR.hlsrun_csim_summary",
+ "connectId": "",
+ "serverToken": "",
+ "timestamp": "0"
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_CmdStep",
+ "dateTimestamp": "10/01/26 14:38:11",
+ "timestampMillis": "1790845691736",
+ "buildStep": {
+  "cmdId": "474c5efb-ac76-45cf-865d-17d5c78616c9",
+  "name": "vitis-run",
+  "logFile": "C:/Users\\ielab1\\mnvskn\\ORR\\ORR\\logs\\ORR.steps.log",
+  "commandLine": "G:/2025.2/Vitis/bin/unwrapped/win64.o/vitis-run.exe  --mode hls --csim --config C:\\Users\\ielab1\\mnvskn\\ORR\\hls_config.cfg --work_dir ORR ",
+  "args": [
+   "--mode",
+   "hls",
+   "--csim",
+   "--config",
+   "C:\\Users\\ielab1\\mnvskn\\ORR\\hls_config.cfg",
+   "--work_dir",
+   "ORR"
+  ],
+  "iniFiles": [],
+  "cwd": "C:\\Users\\ielab1\\mnvskn\\ORR"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "10/01/26 14:38:11",
+ "timestampMillis": "1790845691736",
+ "status": {
+  "cmdId": "474c5efb-ac76-45cf-865d-17d5c78616c9",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_FlowMetaData",
+ "dateTimestamp": "10/01/26 14:38:15",
+ "timestampMillis": "1790845695297",
+ "buildSummary": {
+  "hardwarePlatform": "",
+  "hardwareDsa": "",
+  "platformDirectory": "",
+  "runtime": "",
+  "systemConfig": "",
+  "flow": "BF_RUN",
+  "target": "TT_HLS_C_SIM",
+  "kernels": [
+   {
+    "base": {
+     "type": "KERNEL",
+     "name": "orr",
+     "file": "",
+     "reports": [],
+     "uuid": ""
+    },
+    "sources": [
+     "C:/Users\\ielab1\\mnvskn\\ORR\\or.cpp",
+     "C:/Users\\ielab1\\mnvskn\\ORR\\or.h"
+    ],
+    "psSources": [],
+    "cuNames": [],
+    "type": "HLS",
+    "frequency": 0,
+    "freqUnits": ""
+   }
+  ],
+  "toolVersion": "2025.2"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "10/01/26 14:38:15",
+ "timestampMillis": "1790845695298",
+ "buildStep": {
+  "cmdId": "4982c068-d2ae-46c2-b47a-13bbaad55d4b",
+  "name": "",
+  "logFile": "C:/Users\\ielab1\\mnvskn\\ORR\\ORR\\hls\\hls.log",
+  "commandLine": "",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "C:\\Users\\ielab1\\mnvskn\\ORR"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "10/01/26 14:38:15",
+ "timestampMillis": "1790845695298",
+ "status": {
+  "cmdId": "4982c068-d2ae-46c2-b47a-13bbaad55d4b",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "10/01/26 14:38:17",
+ "timestampMillis": "1790845697834",
+ "status": {
+  "cmdId": "4982c068-d2ae-46c2-b47a-13bbaad55d4b",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "10/01/26 14:38:17",
+ "timestampMillis": "1790845697924",
+ "status": {
+  "cmdId": "474c5efb-ac76-45cf-865d-17d5c78616c9",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "10/01/26 14:38:17",
+ "timestampMillis": "1790845697924",
+ "report": {
+  "path": "",
+  "name": "",
+  "fileType": "HTML",
+  "reportType": "GLOBAL_RULECHECK_GUIDANCE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "10/01/26 14:38:17",
+ "timestampMillis": "1790845697925",
+ "report": {
+  "path": "",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_RULECHECK_GUIDANCE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
