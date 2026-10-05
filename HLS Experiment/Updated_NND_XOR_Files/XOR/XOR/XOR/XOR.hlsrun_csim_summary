@@ -1,0 +1,159 @@
+<ENTRY>
+{
+ "thisFile": "C:/Users\\ielab1\\mnvskn\\XOR\\XOR\\XOR.hlsrun_csim_summary",
+ "connectId": "",
+ "serverToken": "",
+ "timestamp": "0"
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_CmdStep",
+ "dateTimestamp": "10/05/26 12:25:54",
+ "timestampMillis": "1791183354979",
+ "buildStep": {
+  "cmdId": "e5d66049-13e5-4781-9ffc-45a3a2180591",
+  "name": "vitis-run",
+  "logFile": "C:/Users\\ielab1\\mnvskn\\XOR\\XOR\\logs\\XOR.steps.log",
+  "commandLine": "G:/2025.2/Vitis/bin/unwrapped/win64.o/vitis-run.exe  --mode hls --csim --config C:\\Users\\ielab1\\mnvskn\\XOR\\hls_config.cfg --work_dir XOR ",
+  "args": [
+   "--mode",
+   "hls",
+   "--csim",
+   "--config",
+   "C:\\Users\\ielab1\\mnvskn\\XOR\\hls_config.cfg",
+   "--work_dir",
+   "XOR"
+  ],
+  "iniFiles": [],
+  "cwd": "C:\\Users\\ielab1\\mnvskn\\XOR"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "10/05/26 12:25:54",
+ "timestampMillis": "1791183354980",
+ "status": {
+  "cmdId": "e5d66049-13e5-4781-9ffc-45a3a2180591",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_FlowMetaData",
+ "dateTimestamp": "10/05/26 12:25:58",
+ "timestampMillis": "1791183358574",
+ "buildSummary": {
+  "hardwarePlatform": "",
+  "hardwareDsa": "",
+  "platformDirectory": "",
+  "runtime": "",
+  "systemConfig": "",
+  "flow": "BF_RUN",
+  "target": "TT_HLS_C_SIM",
+  "kernels": [
+   {
+    "base": {
+     "type": "KERNEL",
+     "name": "xorg",
+     "file": "",
+     "reports": [],
+     "uuid": ""
+    },
+    "sources": [
+     "C:/Users\\ielab1\\mnvskn\\XOR\\nand.h",
+     "C:/Users\\ielab1\\mnvskn\\XOR\\nand.cpp",
+     "C:/Users\\ielab1\\mnvskn\\XOR\\xor.cpp",
+     "C:/Users\\ielab1\\mnvskn\\XOR\\xor.h"
+    ],
+    "psSources": [],
+    "cuNames": [],
+    "type": "HLS",
+    "frequency": 0,
+    "freqUnits": ""
+   }
+  ],
+  "toolVersion": "2025.2"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "10/05/26 12:25:58",
+ "timestampMillis": "1791183358576",
+ "buildStep": {
+  "cmdId": "cbb7ab91-a485-4235-a082-c1cf849f0856",
+  "name": "",
+  "logFile": "C:/Users\\ielab1\\mnvskn\\XOR\\XOR\\hls\\hls.log",
+  "commandLine": "",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "C:\\Users\\ielab1\\mnvskn\\XOR"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "10/05/26 12:25:58",
+ "timestampMillis": "1791183358577",
+ "status": {
+  "cmdId": "cbb7ab91-a485-4235-a082-c1cf849f0856",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "10/05/26 12:26:01",
+ "timestampMillis": "1791183361764",
+ "status": {
+  "cmdId": "cbb7ab91-a485-4235-a082-c1cf849f0856",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "10/05/26 12:26:01",
+ "timestampMillis": "1791183361850",
+ "status": {
+  "cmdId": "e5d66049-13e5-4781-9ffc-45a3a2180591",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "10/05/26 12:26:01",
+ "timestampMillis": "1791183361850",
+ "report": {
+  "path": "",
+  "name": "",
+  "fileType": "HTML",
+  "reportType": "GLOBAL_RULECHECK_GUIDANCE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "10/05/26 12:26:01",
+ "timestampMillis": "1791183361850",
+ "report": {
+  "path": "",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_RULECHECK_GUIDANCE",
+  "cmdId": ""
+ }
+}
+</ENTRY>

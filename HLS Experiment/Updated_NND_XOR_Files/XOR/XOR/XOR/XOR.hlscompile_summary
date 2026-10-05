@@ -1,0 +1,248 @@
+<ENTRY>
+{
+ "thisFile": "C:/Users\\ielab1\\mnvskn\\XOR\\XOR\\XOR.hlscompile_summary",
+ "connectId": "",
+ "serverToken": "",
+ "timestamp": "0"
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_CmdStep",
+ "dateTimestamp": "10/01/26 17:06:25",
+ "timestampMillis": "1790854585159",
+ "buildStep": {
+  "cmdId": "7264e321-b418-4de7-a5da-3ff3405c09dc",
+  "name": "v++",
+  "logFile": "C:/Users\\ielab1\\mnvskn\\XOR\\XOR\\logs\\XOR.steps.log",
+  "commandLine": "G:/2025.2/Vitis/bin/unwrapped/win64.o/v++.exe  -c --mode hls --config C:\\Users\\ielab1\\mnvskn\\XOR\\hls_config.cfg --work_dir XOR ",
+  "args": [
+   "-c",
+   "--mode",
+   "hls",
+   "--config",
+   "C:\\Users\\ielab1\\mnvskn\\XOR\\hls_config.cfg",
+   "--work_dir",
+   "XOR"
+  ],
+  "iniFiles": [
+   {
+    "path": "C:/Users\\ielab1\\mnvskn\\XOR\\hls_config.cfg",
+    "content": "part=xc7a35tftg256-1\n\n[hls]\nflow_target=vivado\npackage.output.format=ip_catalog\npackage.output.syn=false\nsyn.file=nand.h\nsyn.file=nand.cpp\nsyn.file=xor.cpp\nsyn.file=xor.h\ntb.file=xor_test.cpp\nsyn.top=xorg"
+   }
+  ],
+  "cwd": "C:\\Users\\ielab1\\mnvskn\\XOR"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "10/01/26 17:06:25",
+ "timestampMillis": "1790854585160",
+ "status": {
+  "cmdId": "7264e321-b418-4de7-a5da-3ff3405c09dc",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_FlowMetaData",
+ "dateTimestamp": "10/01/26 17:06:28",
+ "timestampMillis": "1790854588786",
+ "buildSummary": {
+  "hardwarePlatform": "",
+  "hardwareDsa": "",
+  "platformDirectory": "",
+  "runtime": "",
+  "systemConfig": "",
+  "flow": "BF_COMPILE",
+  "target": "TT_HW",
+  "kernels": [
+   {
+    "base": {
+     "type": "KERNEL",
+     "name": "xorg",
+     "file": "",
+     "reports": [],
+     "uuid": ""
+    },
+    "sources": [
+     "C:/Users\\ielab1\\mnvskn\\XOR\\nand.h",
+     "C:/Users\\ielab1\\mnvskn\\XOR\\nand.cpp",
+     "C:/Users\\ielab1\\mnvskn\\XOR\\xor.cpp",
+     "C:/Users\\ielab1\\mnvskn\\XOR\\xor.h"
+    ],
+    "psSources": [],
+    "cuNames": [],
+    "type": "HLS",
+    "frequency": 0,
+    "freqUnits": ""
+   }
+  ],
+  "toolVersion": "2025.2"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "10/01/26 17:06:28",
+ "timestampMillis": "1790854588787",
+ "buildStep": {
+  "cmdId": "4b40a603-9224-4015-a6e7-c52d8079912b",
+  "name": "",
+  "logFile": "C:/Users\\ielab1\\mnvskn\\XOR\\XOR\\hls\\hls.log",
+  "commandLine": "",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "C:\\Users\\ielab1\\mnvskn\\XOR"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "10/01/26 17:06:28",
+ "timestampMillis": "1790854588788",
+ "status": {
+  "cmdId": "4b40a603-9224-4015-a6e7-c52d8079912b",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "10/01/26 17:06:28",
+ "timestampMillis": "1790854588788",
+ "report": {
+  "path": "C:/Users\\ielab1\\mnvskn\\XOR\\XOR\\hls\\hls_data.json",
+  "name": "",
+  "fileType": "JSON",
+  "reportType": "HLS_SYNTHESIS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "10/01/26 17:06:28",
+ "timestampMillis": "1790854588789",
+ "report": {
+  "path": "C:/Users\\ielab1\\mnvskn\\XOR\\XOR\\hls\\syn\\report\\csynth.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "HLS_SYNTHESIS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "10/01/26 17:06:28",
+ "timestampMillis": "1790854588789",
+ "report": {
+  "path": "C:/Users\\ielab1\\mnvskn\\XOR\\XOR\\hls\\syn\\report\\csynth.xml",
+  "name": "",
+  "fileType": "XML",
+  "reportType": "HLS_SYNTHESIS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "10/01/26 17:07:00",
+ "timestampMillis": "1790854620042",
+ "report": {
+  "path": "C:/Users\\ielab1\\mnvskn\\XOR\\XOR\\hls",
+  "name": "",
+  "fileType": "DIR",
+  "reportType": "HLS_DATAFLOW",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "10/01/26 17:07:00",
+ "timestampMillis": "1790854620042",
+ "report": {
+  "path": "C:/Users\\ielab1\\mnvskn\\XOR\\XOR\\hls",
+  "name": "",
+  "fileType": "DIR",
+  "reportType": "HLS_FUNCTION_CALL_GRAPH",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "10/01/26 17:07:00",
+ "timestampMillis": "1790854620043",
+ "report": {
+  "path": "C:/Users\\ielab1\\mnvskn\\XOR\\XOR\\hls",
+  "name": "",
+  "fileType": "DIR",
+  "reportType": "HLS_SCHEDULE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "10/01/26 17:07:00",
+ "timestampMillis": "1790854620043",
+ "status": {
+  "cmdId": "4b40a603-9224-4015-a6e7-c52d8079912b",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "10/01/26 17:07:00",
+ "timestampMillis": "1790854620146",
+ "status": {
+  "cmdId": "7264e321-b418-4de7-a5da-3ff3405c09dc",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "10/01/26 17:07:00",
+ "timestampMillis": "1790854620169",
+ "report": {
+  "path": "C:/Users\\ielab1\\mnvskn\\XOR\\XOR\\reports\\v++_compile_XOR_guidance.html",
+  "name": "",
+  "fileType": "HTML",
+  "reportType": "GLOBAL_RULECHECK_GUIDANCE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "10/01/26 17:07:00",
+ "timestampMillis": "1790854620169",
+ "report": {
+  "path": "C:/Users\\ielab1\\mnvskn\\XOR\\XOR\\reports\\.db\\v++_compile_XOR_guidance.pb3",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_RULECHECK_GUIDANCE",
+  "cmdId": ""
+ }
+}
+</ENTRY>

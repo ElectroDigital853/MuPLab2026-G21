@@ -1,0 +1,40 @@
+[
+  {
+    "directory": "C:\\Users\\ielab1\\mnvskn\\XOR",
+    "arguments": [
+      "G:\\2025.2\\Vitis\\win64\\tools\\vcxx\\libexec\\clang++.exe",
+      "--sysroot=G:\\2025.2\\Vitis\\tps\\mingw\\10.0.0\\win64.o\\nt",
+      "-fhls",
+      "-hls-syn-headers-dir=G:\\2025.2\\Vitis\\common\\technology\\autopilot",
+      "-fhlstoplevel=xorg",
+      "-c",
+      "C:\\Users\\ielab1\\mnvskn\\XOR\\nand.cpp"
+    ],
+    "file": "C:\\Users\\ielab1\\mnvskn\\XOR\\nand.cpp"
+  },
+  {
+    "directory": "C:\\Users\\ielab1\\mnvskn\\XOR",
+    "arguments": [
+      "G:\\2025.2\\Vitis\\win64\\tools\\vcxx\\libexec\\clang++.exe",
+      "--sysroot=G:\\2025.2\\Vitis\\tps\\mingw\\10.0.0\\win64.o\\nt",
+      "-fhls",
+      "-hls-syn-headers-dir=G:\\2025.2\\Vitis\\common\\technology\\autopilot",
+      "-fhlstoplevel=xorg",
+      "-c",
+      "C:\\Users\\ielab1\\mnvskn\\XOR\\xor.cpp"
+    ],
+    "file": "C:\\Users\\ielab1\\mnvskn\\XOR\\xor.cpp"
+  },
+  {
+    "directory": "C:\\Users\\ielab1\\mnvskn\\XOR",
+    "arguments": [
+      "G:\\2025.2\\Vitis\\win64\\tools\\vcxx\\libexec\\clang++.exe",
+      "--sysroot=G:\\2025.2\\Vitis\\tps\\mingw\\10.0.0\\win64.o\\nt",
+      "-fhls-tb",
+      "-hls-sim-headers-dir=G:\\2025.2\\Vitis\\include",
+      "-c",
+      "C:\\Users\\ielab1\\mnvskn\\XOR\\xor_test.cpp"
+    ],
+    "file": "C:\\Users\\ielab1\\mnvskn\\XOR\\xor_test.cpp"
+  }
+]
