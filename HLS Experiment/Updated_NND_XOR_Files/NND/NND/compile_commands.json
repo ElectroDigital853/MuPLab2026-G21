@@ -1,0 +1,27 @@
+[
+  {
+    "directory": "C:\\Users\\ielab1\\mnvskn\\NND",
+    "arguments": [
+      "G:\\2025.2\\Vitis\\win64\\tools\\vcxx\\libexec\\clang++.exe",
+      "--sysroot=G:\\2025.2\\Vitis\\tps\\mingw\\10.0.0\\win64.o\\nt",
+      "-fhls",
+      "-hls-syn-headers-dir=G:\\2025.2\\Vitis\\common\\technology\\autopilot",
+      "-fhlstoplevel=nnd",
+      "-c",
+      "C:\\Users\\ielab1\\mnvskn\\NND\\nand.cpp"
+    ],
+    "file": "C:\\Users\\ielab1\\mnvskn\\NND\\nand.cpp"
+  },
+  {
+    "directory": "C:\\Users\\ielab1\\mnvskn\\NND",
+    "arguments": [
+      "G:\\2025.2\\Vitis\\win64\\tools\\vcxx\\libexec\\clang++.exe",
+      "--sysroot=G:\\2025.2\\Vitis\\tps\\mingw\\10.0.0\\win64.o\\nt",
+      "-fhls-tb",
+      "-hls-sim-headers-dir=G:\\2025.2\\Vitis\\include",
+      "-c",
+      "C:\\Users\\ielab1\\mnvskn\\NND\\nand_test.cpp"
+    ],
+    "file": "C:\\Users\\ielab1\\mnvskn\\NND\\nand_test.cpp"
+  }
+]

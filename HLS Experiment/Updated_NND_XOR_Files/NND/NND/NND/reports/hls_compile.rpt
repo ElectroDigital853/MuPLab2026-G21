@@ -1,0 +1,136 @@
+
+
+================================================================
+== Synthesis Summary Report of 'nnd'
+================================================================
++ General Information: 
+    * Date:           Thu Oct  1 16:12:21 2026
+    * Version:        2025.2 (Build 6295257 on Nov 14 2025)
+    * Project:        NND
+    * Solution:       hls (Vivado IP Flow Target)
+    * Product family: artix7
+    * Target device:  xc7a35t-ftg256-1
+    
+
+* Performance & Resource Estimates: 
++-------------------------------------------------+------+-------------------+----------+---------+------+----------+---------+-----------+------+------+----+----------+----------+-----+
+|                     Modules                     | Issue|                   | Iteration|         | Trip |          |       Latency       |      |      |    |          |          |     |
+|                     & Loops                     | Type |   Violation Type  |  Latency | Interval| Count| Pipelined| (cycles)|    (ns)   | Slack| BRAM | DSP|    FF    |    LUT   | URAM|
++-------------------------------------------------+------+-------------------+----------+---------+------+----------+---------+-----------+------+------+----+----------+----------+-----+
+|+ nnd                                            |     -|                  -|         -|     1605|     -|        no|     1604|  1.604e+04|  0.51|     -|   -|  81 (~0%)|  379 (1%)|    -|
+| + nnd_Pipeline_VITIS_LOOP_19_1_VITIS_LOOP_21_2  |     -|                  -|         -|        -|     -|       yes|     1602|  1.602e+04|  0.51|     -|   -|  50 (~0%)|  324 (1%)|    -|
+|  o VITIS_LOOP_19_1_VITIS_LOOP_21_2              |    II|  Memory Dependency|         3|        2|   800|       yes|     1600|  1.600e+04|  7.30|     -|   -|         -|         -|    -|
++-------------------------------------------------+------+-------------------+----------+---------+------+----------+---------+-----------+------+------+----+----------+----------+-----+
+    II Violation Information: docs.amd.com/access/sources/dita/topic?Doc_Version=2025.2%20English&url=ug1448-hls-guidance&resourceid=200-880.html
+    Name Prefix: '+' for module, 'o' for loop, '*' for dataflow
+
+
+================================================================
+== HW Interfaces
+================================================================
+* Other Ports
++------+---------+-----------+----------+
+| Port | Mode    | Direction | Bitwidth |
++------+---------+-----------+----------+
+| a    | ap_none | in        | 1        |
+| b    | ap_none | in        | 1        |
+| c    | ap_none | out       | 1        |
++------+---------+-----------+----------+
+
+* TOP LEVEL CONTROL
++-----------+--------------+--------+
+| Interface | Type         | Ports  |
++-----------+--------------+--------+
+| ap_clk    | clock        | ap_clk |
+| ap_rst    | reset        | ap_rst |
+| ap_ctrl   | ap_ctrl_none |        |
++-----------+--------------+--------+
+
+
+================================================================
+== SW I/O Information
+================================================================
+* Top Function Arguments
++----------+-----------+-------------+
+| Argument | Direction | Datatype    |
++----------+-----------+-------------+
+| a        | in        | ap_uint<1>  |
+| b        | in        | ap_uint<1>  |
+| c        | out       | ap_uint<1>& |
++----------+-----------+-------------+
+
+* SW-to-HW Mapping
++----------+--------------+---------+
+| Argument | HW Interface | HW Type |
++----------+--------------+---------+
+| a        | a            | port    |
+| b        | b            | port    |
+| c        | c            | port    |
++----------+--------------+---------+
+
+
+================================================================
+== Bind Op Report
+================================================================
++-------------------------------------------------+-----+--------+---------------+--------+----------+---------+
+| Name                                            | DSP | Pragma | Variable      | Op     | Impl     | Latency |
++-------------------------------------------------+-----+--------+---------------+--------+----------+---------+
+| + nnd                                           | 0   |        |               |        |          |         |
+|   select_ln59_fu_95_p3                          |     |        | select_ln59   | select | auto_sel | 0       |
+|   and_ln59_fu_102_p2                            |     |        | and_ln59      | and    | auto     | 0       |
+|   select_ln59_1_fu_108_p3                       |     |        | select_ln59_1 | select | auto_sel | 0       |
+|   and_ln59_1_fu_115_p2                          |     |        | and_ln59_1    | and    | auto     | 0       |
+|   c                                             |     |        | xor_ln60      | xor    | auto     | 0       |
+|  + nnd_Pipeline_VITIS_LOOP_19_1_VITIS_LOOP_21_2 | 0   |        |               |        |          |         |
+|    icmp_ln19_fu_75_p2                           |     |        | icmp_ln19     | seteq  | auto     | 0       |
+|    add_ln19_fu_81_p2                            |     |        | add_ln19      | add    | fabric   | 0       |
+|    icmp_ln21_fu_90_p2                           |     |        | icmp_ln21     | seteq  | auto     | 0       |
+|    select_ln19_fu_96_p3                         |     |        | select_ln19   | select | auto_sel | 0       |
+|    select_ln28_fu_125_p3                        |     |        | select_ln28   | select | auto_sel | 0       |
+|    and_ln28_fu_132_p2                           |     |        | and_ln28      | and    | auto     | 0       |
+|    select_ln28_1_fu_146_p3                      |     |        | select_ln28_1 | select | auto_sel | 0       |
+|    and_ln28_1_fu_153_p2                         |     |        | and_ln28_1    | and    | auto     | 0       |
+|    add_ln28_fu_163_p2                           |     |        | add_ln28      | add    | fabric   | 0       |
+|    add_ln28_1_fu_181_p2                         |     |        | add_ln28_1    | add    | fabric   | 0       |
+|    and_ln28_2_fu_195_p2                         |     |        | and_ln28_2    | and    | auto     | 0       |
+|    c_expect_fu_199_p2                           |     |        | c_expect      | xor    | auto     | 0       |
+|    xor_ln31_fu_205_p2                           |     |        | xor_ln31      | xor    | auto     | 0       |
+|    select_ln11_fu_223_p3                        |     |        | select_ln11   | select | auto_sel | 0       |
+|    and_ln11_fu_231_p2                           |     |        | and_ln11      | and    | auto     | 0       |
+|    error_fu_237_p2                              |     |        | error         | setlt  | auto     | 0       |
+|    and_ln12_fu_253_p2                           |     |        | and_ln12      | and    | auto     | 0       |
+|    sub_ln12_fu_269_p2                           |     |        | sub_ln12      | sub    | fabric   | 0       |
+|    and_ln13_fu_280_p2                           |     |        | and_ln13      | and    | auto     | 0       |
+|    sub_ln13_fu_296_p2                           |     |        | sub_ln13      | sub    | fabric   | 0       |
+|    sub_ln14_fu_318_p2                           |     |        | sub_ln14      | sub    | fabric   | 0       |
+|    i_1_fu_243_p2                                |     |        | i_1           | add    | fabric   | 0       |
++-------------------------------------------------+-----+--------+---------------+--------+----------+---------+
+
+
+================================================================
+== Storage Report
+================================================================
+  No bind storage info in design
+
+================================================================
+== Pragma Report
+================================================================
+* Inferred Pragmas
++--------------+---------+------------------------------------------------------------+---------------------------------------------+
+| Type         | Options | Location                                                   | Inferred From                               |
++--------------+---------+------------------------------------------------------------+---------------------------------------------+
+| LOOP_FLATTEN |         | loop VITIS_LOOP_19_1 (nand.cpp:19:22) in nnd (nand.cpp:19) | pipeline nand.cpp:21 (Performance Budgeter) |
+| PIPELINE     |         | loop VITIS_LOOP_21_2 (nand.cpp:21:26) in nnd (nand.cpp:21) | syn.compile.pipeline_loops=64               |
++--------------+---------+------------------------------------------------------------+---------------------------------------------+
+
+* Valid Pragma Syntax
++-----------+----------------------------+----------------------+
+| Type      | Options                    | Location             |
++-----------+----------------------------+----------------------+
+| INTERFACE | ap_ctrl_none port = return | in nnd (nand.cpp:43) |
+| INTERFACE | ap_none port = a           | in nnd (nand.cpp:44) |
+| INTERFACE | ap_none port = b           | in nnd (nand.cpp:45) |
+| INTERFACE | ap_none port = c           | in nnd (nand.cpp:46) |
++-----------+----------------------------+----------------------+
+
+
