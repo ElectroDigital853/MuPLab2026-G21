@@ -1,0 +1,53 @@
+
+------------------------------------------------------------------------------------------------
+Task 5:
+	AREA Program, CODE, READONLY
+	ENTRY
+		LDR R0,NUM0L
+		LDR R1, NUM0H
+		LDR R2,NUM1L
+		LDR R3, NUM1H
+		ADDS R4, r2, r0
+		ADCS R5, R1, R3
+		ADC R6, R6, R6
+		;LDS 
+Stop
+	B Stop
+
+
+NUM0L DCD &12345679
+NUM0H DCD &FEDCBA98
+NUM1L DCD &EDCBA987
+NUM1H DCD &01234567
+	END
+-------------------------------------------------------------------------------------------------
+Task 6:
+	AREA Program, CODE, READONLY
+	ENTRY
+		LDR R0,NUM0
+		LDR R1, NUM1
+		MOV R2, #9 ;
+		;MOV R3, #1 ; Define R3 as the register that holds the constant 1
+		;MOV R4, #0 ; Define R4 as the register that holds the constant 0
+		; Define R5 as tallying register
+loop
+	ADD R7, R0, R1
+	MOV R0, R1
+	MOV R1, R7
+	
+	;ADD R5, R3, R4
+	;CMP R5, R2
+	;BNE out_loop
+	;B loop
+	;LDS 
+	SUBS R2, R2, #1
+	BNE loop
+Stop
+	B Stop
+
+
+NUM0 DCD &0
+NUM1 DCD &1
+	END
+---------------------------------------------------------------------------------------------
+Task 7:
